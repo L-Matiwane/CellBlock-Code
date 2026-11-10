@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CellBlock_Code.Views.HowToPlayView">
+
+    <ContentView.Resources>
+        <Style x:Key="InfoCard" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="#12171E" />
+            <Setter Property="Stroke" Value="#37434B" />
+            <Setter Property="StrokeThickness" Value="2" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 14" />
+            <Setter Property="Padding" Value="12" />
+        </Style>
+    </ContentView.Resources>
+
+    <Grid BackgroundColor="#F5050814">
+        <ScrollView>
+            <VerticalStackLayout Padding="20,28" Spacing="12">
+
+                <Label Text="YOUR MISSION" FontSize="20" FontAttributes="Bold" CharacterSpacing="3"
+                       TextColor="#FF6B1A" HorizontalOptions="Center" />
+                <Label Text="🔒" FontSize="40" HorizontalOptions="Center" />
+                <Label Text="ESCAPE THE PRISON" FontSize="18" FontAttributes="Bold"
+                       TextColor="White" HorizontalOptions="Center" />
+                <Label Text="A secret three-digit code is all that stands between you and freedom."
+                       FontSize="14" TextColor="White" HorizontalTextAlignment="Center" />
+                <Label Text="No digit repeats. Make a guess, read the clues, and work out the right order before the guards arrive."
+                       FontSize="12" TextColor="#A7B0B6" HorizontalTextAlignment="Center" />
+
+                <!-- Hit and match -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <Border Style="{StaticResource InfoCard}" Stroke="#2ECC71" BackgroundColor="#0F2A1C">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="✓" FontSize="26" TextColor="#4ADE80" HorizontalOptions="Center" />
+                            <Label Text="HIT" FontSize="16" FontAttributes="Bold" TextColor="#4ADE80" HorizontalOptions="Center" />
+                            <Label Text="Right digit" FontSize="11" TextColor="White" HorizontalOptions="Center" />
+                            <Label Text="AND" FontSize="8" TextColor="#8A97A0" HorizontalOptions="Center" />
+                            <Label Text="Right place" FontSize="11" TextColor="White" HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Column="1" Style="{StaticResource InfoCard}" Stroke="#E0651F" BackgroundColor="#2A160D">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="↔" FontSize="26" TextColor="#FF8B47" HorizontalOptions="Center" />
+                            <Label Text="MATCH" FontSize="16" FontAttributes="Bold" TextColor="#FF8B47" HorizontalOptions="Center" />
+                            <Label Text="Right digit" FontSize="11" TextColor="White" HorizontalOptions="Center" />
+                            <Label Text="BUT" FontSize="8" TextColor="#8A97A0" HorizontalOptions="Center" />
+                            <Label Text="Wrong place" FontSize="11" TextColor="White" HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <!-- Example -->
+                <Border Style="{StaticResource InfoCard}">
+                    <VerticalStackLayout Spacing="3">
+                        <Label Text="EXAMPLE" FontSize="9" CharacterSpacing="2" TextColor="#8A97A0" HorizontalOptions="Center" />
+                        <Label Text="Secret code:  5 8 2" FontSize="14" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" />
+                        <Label Text="Your guess:  5 2 7" FontSize="14" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" />
+                        <Label Text="1 HIT  •  1 MATCH" FontSize="14" FontAttributes="Bold" TextColor="#FFB300" HorizontalOptions="Center" />
+                        <Label Text="The 5 is in the right place. The 2 is in the code, but in the wrong place."
+                               FontSize="11" TextColor="#A7B0B6" HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Style="{StaticResource InfoCard}" Stroke="#2ECC71" BackgroundColor="#0F2A1C">
+                    <Label Text="🔓  3 HITS = CELL UNLOCKED" FontSize="14" FontAttributes="Bold"
+                           TextColor="#4ADE80" HorizontalOptions="Center" />
+                </Border>
+
+                <!-- Levels and scoring -->
+                <Border Style="{StaticResource InfoCard}">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="LEVELS" FontSize="9" CharacterSpacing="2" TextColor="#8A97A0" HorizontalOptions="Center" />
+                        <Label Text="EASY: all past guesses shown, 8:00" FontSize="12" TextColor="#4ADE80" />
+                        <Label Text="MEDIUM: last 5 guesses shown, 5:00" FontSize="12" TextColor="#FF8B47" />
+                        <Label Text="HARD: no guess history, 2:00" FontSize="12" TextColor="#FF5C5C" />
+                        <Label Text="Fewer attempts and more time left mean more points. Medium scores x1.5 and Hard x2."
+               FontSize="11" TextColor="#A7B0B6" Margin="0,6,0,0" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Button Text="GOT IT" BackgroundColor="#FF6B1A" TextColor="White" FontAttributes="Bold"
+                        CornerRadius="14" HeightRequest="52" Clicked="Close_Clicked" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentView>

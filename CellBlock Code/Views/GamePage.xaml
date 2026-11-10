@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:CellBlock_Code.Models"
+             xmlns:views="clr-namespace:CellBlock_Code.Views"
+             x:Class="CellBlock_Code.Views.GamePage"
+             BackgroundColor="#050814"
+             Shell.NavBarIsVisible="False">
+
+    <ContentPage.Resources>
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="#12171E" />
+            <Setter Property="Stroke" Value="#37434B" />
+            <Setter Property="StrokeThickness" Value="2" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 14" />
+            <Setter Property="Padding" Value="10" />
+        </Style>
+
+        <Style x:Key="KeyStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#4C4F52" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="BorderColor" Value="#BFC2C4" />
+            <Setter Property="BorderWidth" Value="3" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="HeightRequest" Value="50" />
+            <Setter Property="Margin" Value="4" />
+        </Style>
+
+        <Style x:Key="ToolButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#12171E" />
+            <Setter Property="BorderColor" Value="#37434B" />
+            <Setter Property="BorderWidth" Value="2" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="WidthRequest" Value="60" />
+        </Style>
+
+        <Style x:Key="ActionButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#12171E" />
+            <Setter Property="BorderWidth" Value="2" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="HeightRequest" Value="42" />
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="16,14,16,32" Spacing="8">
+
+                <!-- Top row: time, attempts, help -->
+                <Grid ColumnDefinitions="*,*,Auto" ColumnSpacing="8">
+                    <Border Style="{StaticResource CardStyle}" Padding="8,6">
+                        <VerticalStackLayout>
+                            <Label Text="TIME LEFT" FontSize="9" CharacterSpacing="1"
+                                   TextColor="#8A97A0" HorizontalOptions="Center" />
+                            <Label x:Name="TimerLabel" Text="08:00" FontSize="24" FontAttributes="Bold"
+                                   TextColor="White" HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Column="1" Style="{StaticResource CardStyle}" Padding="8,6">
+                        <VerticalStackLayout>
+                            <Label Text="ATTEMPTS" FontSize="9" CharacterSpacing="1"
+                                   TextColor="#8A97A0" HorizontalOptions="Center" />
+                            <Label x:Name="GuessesLabel" Text="0" FontSize="24" FontAttributes="Bold"
+                                   TextColor="White" HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Button Grid.Column="2" Text="❓" Style="{StaticResource ToolButton}"
+                            TextColor="#A7B0B6" Clicked="HowToPlay_Clicked" />
+                </Grid>
+
+                <!-- Status card -->
+                <Border Style="{StaticResource CardStyle}" BackgroundColor="#111A1B" Padding="10,6">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <Label x:Name="StatusIcon" Text="🔒" FontSize="28" VerticalOptions="Center" />
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                            <Label x:Name="StatusTitle" FontSize="18" FontAttributes="Bold"
+                                   CharacterSpacing="2" TextColor="#FF6B1A" />
+                            <Label x:Name="StatusDescription" FontSize="11" TextColor="#A7B0B6" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <!-- Keypad terminal -->
+                <Border x:Name="KeypadPanel" Stroke="#A9ACAE" StrokeThickness="5"
+                        BackgroundColor="#2E3133" StrokeShape="RoundRectangle 26" Padding="10">
+                    <Border BackgroundColor="#3A3D40" Stroke="#26282A" StrokeThickness="2"
+                            StrokeShape="RoundRectangle 18" Padding="12">
+                        <VerticalStackLayout Spacing="10">
+
+                            <VerticalStackLayout>
+                                <Label Text="MAXIMUM SECURITY" FontSize="14" CharacterSpacing="1"
+                                       TextColor="#D5D8DA" HorizontalOptions="Center" />
+                                <Label Text="CELL ACCESS TERMINAL" FontSize="9" CharacterSpacing="1"
+                                       TextColor="#8A8D8F" HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+
+                            <Border x:Name="CodeDisplay" BackgroundColor="Black" Stroke="#111111"
+                                    StrokeThickness="3" StrokeShape="RoundRectangle 10" Padding="8">
+                                <Label x:Name="CodeLabel" Text="• • •" FontSize="36" FontAttributes="Bold"
+                                       TextColor="#FF6B1A" HorizontalOptions="Center" />
+                            </Border>
+
+                            <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto,Auto,Auto">
+                                <Button Text="1" Style="{StaticResource KeyStyle}" Clicked="Digit_Clicked" />
+                                <Button Text="2" Grid.Column="1" Style="{StaticResource KeyStyle}" Clicked="Digit_Clicked" />
+                                <Button Text="3" Grid.Column="2" Style="{StaticResource KeyStyle}" Clicked="Digit_Clicked" />
+
+                                <Button Text="4" Grid.Row="1" Style="{StaticResource KeyStyle}" Clicked="Digit_Clicked" />
+                                <Button Text="5" Grid.Row="1" Grid.Column="1" Style="{StaticResource KeyStyle}" Clicked="Digit_Clicked" />
+                                <Button Text="6" Grid.Row="1" Grid.Column="2" Style="{StaticResource KeyStyle}" Clicked="Digit_Clicked" />
+
+                                <Button Text="7" Grid.Row="2" Style="{StaticResource KeyStyle}" Clicked="Digit_Clicked" />
+                                <Button Text="8" Grid.Row="2" Grid.Column="1" Style="{StaticResource KeyStyle}" Clicked="Digit_Clicked" />
+                                <Button Text="9" Grid.Row="2" Grid.Column="2" Style="{StaticResource KeyStyle}" Clicked="Digit_Clicked" />
+
+                                <Button Text="⌫" Grid.Row="3" Style="{StaticResource KeyStyle}"
+                                        BackgroundColor="#5A2A2A" BorderColor="#B04A4A" TextColor="#FF8A8A"
+                                        Clicked="Delete_Clicked" />
+                                <Button Text="0" Grid.Row="3" Grid.Column="1" Style="{StaticResource KeyStyle}" Clicked="Digit_Clicked" />
+                                <Button x:Name="EnterButton" Text="✓" Grid.Row="3" Grid.Column="2"
+                                        Style="{StaticResource KeyStyle}" BackgroundColor="#A8460A"
+                                        BorderColor="#FF8B3D" Clicked="Enter_Clicked" />
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                </Border>
+
+                <!-- Hits and matches -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <Border x:Name="HitsPanel" Style="{StaticResource CardStyle}" Stroke="#2ECC71" Padding="8,4">
+                        <VerticalStackLayout>
+                            <Label Text="HITS" FontSize="11" FontAttributes="Bold" TextColor="#4ADE80" HorizontalOptions="Center" />
+                            <Label x:Name="HitsLabel" Text="0" FontSize="26" FontAttributes="Bold" TextColor="#4ADE80" HorizontalOptions="Center" />
+                            <Label Text="RIGHT DIGIT • RIGHT PLACE" FontSize="8" TextColor="#8A97A0" HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Column="1" Style="{StaticResource CardStyle}" Stroke="#E0651F" Padding="8,4">
+                        <VerticalStackLayout>
+                            <Label Text="MATCHES" FontSize="11" FontAttributes="Bold" TextColor="#FF8B47" HorizontalOptions="Center" />
+                            <Label x:Name="MatchesLabel" Text="0" FontSize="26" FontAttributes="Bold" TextColor="#FF8B47" HorizontalOptions="Center" />
+                            <Label Text="RIGHT DIGIT • WRONG PLACE" FontSize="8" TextColor="#8A97A0" HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <!-- Past combinations: a horizontal scroll view (Easy: all, Medium: last 5, Hard: hidden) -->
+                <VerticalStackLayout x:Name="HistorySection" Spacing="2">
+                    <Label x:Name="HistoryTitle" FontSize="9" CharacterSpacing="2" TextColor="#8A97A0" />
+                    <ScrollView Orientation="Horizontal" HeightRequest="44">
+                        <HorizontalStackLayout x:Name="HistoryPanel" Spacing="6">
+                            <BindableLayout.EmptyView>
+                                <Label Text="No attempts yet" FontSize="12" TextColor="#8A97A0"
+                                       VerticalOptions="Center" />
+                            </BindableLayout.EmptyView>
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="models:GuessResult">
+                                    <Border Style="{StaticResource CardStyle}" Padding="10,4"
+                                            StrokeShape="RoundRectangle 10">
+                                        <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                                            <Label Text="{Binding Guess}" TextColor="White"
+                                                   FontAttributes="Bold" VerticalOptions="Center" />
+                                            <Label Text="{Binding Hits, StringFormat='✓ {0}'}" TextColor="#4ADE80"
+                                                   FontSize="12" VerticalOptions="Center" />
+                                            <Label Text="{Binding Matches, StringFormat='↔ {0}'}" TextColor="#FF8B47"
+                                                   FontSize="12" VerticalOptions="Center" />
+                                        </HorizontalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </HorizontalStackLayout>
+                    </ScrollView>
+                </VerticalStackLayout>
+
+                <!-- Message bar -->
+                <Border x:Name="MessagePanel" Style="{StaticResource CardStyle}" Padding="10,8">
+                    <Label x:Name="MessageLabel" Text="ENTER THE ESCAPE CODE" FontSize="12"
+                           FontAttributes="Bold" TextColor="#FF8B47" HorizontalTextAlignment="Center" />
+                </Border>
+
+                <!-- New escape / back -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <Button Text="↻  NEW ESCAPE" Style="{StaticResource ActionButton}"
+                            TextColor="#FF6B1A" BorderColor="#E0651F" Clicked="NewEscape_Clicked" />
+                    <Button Grid.Column="1" Text="←  CELL BLOCK" Style="{StaticResource ActionButton}"
+                            TextColor="#A7B0B6" BorderColor="#37434B" Clicked="BackToMenu_Clicked" />
+                </Grid>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Full-screen escape scene (plays when the code is correct) -->
+        <Grid x:Name="EscapeScene" IsVisible="False" Opacity="0" BackgroundColor="#050814">
+            <Image x:Name="PrisonImage" Source="prison_locked.png" Aspect="AspectFill" />
+            <Image x:Name="PrisonerImage" Source="prisoner.png" HeightRequest="260"
+                   Aspect="AspectFit" IsVisible="False" Opacity="0" VerticalOptions="Center" />
+            <Label x:Name="SceneCaption" FontSize="26" FontAttributes="Bold" CharacterSpacing="3"
+                   TextColor="LimeGreen" HorizontalOptions="Center" VerticalOptions="End"
+                   Margin="0,0,0,60" />
+        </Grid>
+
+        <!-- Result overlay -->
+        <Border x:Name="ResultPanel" IsVisible="False" Opacity="0"
+                BackgroundColor="#E6050814" Stroke="#FF6B1A" StrokeThickness="3"
+                StrokeShape="RoundRectangle 20" Margin="24" Padding="20" VerticalOptions="Center">
+            <VerticalStackLayout Spacing="10">
+                <Label x:Name="ResultTitle" FontSize="28" FontAttributes="Bold" HorizontalOptions="Center" />
+                <Label x:Name="ResultDetail" FontSize="16" TextColor="White"
+                       HorizontalTextAlignment="Center" HorizontalOptions="Center" />
+
+                <!-- Only shown when the score makes the top 20 -->
+                <VerticalStackLayout x:Name="SavePanel" IsVisible="False" Spacing="8">
+                    <Label Text="🏆 NEW TOP 20 SCORE!" FontSize="16" FontAttributes="Bold"
+                           TextColor="#FFB300" HorizontalOptions="Center" />
+                    <Label Text="Enter your name to save it:" FontSize="12" TextColor="#A7B0B6"
+                           HorizontalOptions="Center" />
+                    <Border Style="{StaticResource CardStyle}" Padding="10,0">
+                        <Entry x:Name="NameEntry" Placeholder="Your name" MaxLength="12"
+                               TextColor="White" PlaceholderColor="#6B7680" BackgroundColor="Transparent"
+                               HorizontalTextAlignment="Center" />
+                    </Border>
+                    <Label x:Name="SaveError" IsVisible="False" TextColor="Red" FontSize="11"
+                           HorizontalOptions="Center" />
+                    <Button Text="💾  SAVE SCORE" BackgroundColor="#FFB300" TextColor="Black"
+                            FontAttributes="Bold" CornerRadius="14" Clicked="SaveScore_Clicked" />
+                </VerticalStackLayout>
+
+                <Button Text="🏆  LEADERBOARD" BackgroundColor="Transparent" TextColor="#FFB300"
+                        BorderColor="#FFB300" BorderWidth="2" CornerRadius="24"
+                        Clicked="Leaderboard_Clicked" />
+                <Button Text="↻  NEW ESCAPE" BackgroundColor="#FFB300" TextColor="Black"
+                        FontAttributes="Bold" CornerRadius="24" Clicked="NewEscape_Clicked" />
+                <Button Text="←  CELL BLOCK" BackgroundColor="Transparent" TextColor="#A7B0B6"
+                        BorderColor="#37434B" BorderWidth="2" CornerRadius="24"
+                        Clicked="BackToMenu_Clicked" />
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Help screen (covers everything) -->
+        <views:HowToPlayView x:Name="HowToPlay" IsVisible="False" />
+    </Grid>
+</ContentPage>
